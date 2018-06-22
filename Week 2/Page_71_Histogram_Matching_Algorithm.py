@@ -18,30 +18,23 @@ mi=np.min(I)
 Mi=np.max(I)
 
 
-PI=[]
-PJ=[]
+Ihist,Ibins = np.histogram(I.flatten(),256,[0,256])
+PI_nonnormal = Ihist.cumsum()
+PI = PI_nonnormal * Ihist.max()/ PI_nonnormal.max()
 
-for g in range(256):
-    PI.append(sum([i.tolist().count(g) for i in I])/(Hi*Wi))
-    PJ.append(sum([i.tolist().count(g) for i in J])/(Hj*Wj))
-    
-plt.hist(PJ,256,[0,256],color = "red")
+Jhist,Jbins = np.histogram(J.flatten(),256,[0,256])
+PJ_nonnormal = Jhist.cumsum()
+PJ = PJ_nonnormal * Jhist.max()/ PJ_nonnormal.max()
 
-PI=np.cumsum(PI)
-PJ=np.cumsum(PJ)
+print(PJ)
+gj=mj
 
-plt.hist(PJ,256,[0,256],color = "red")
-plt.title("R Channel")
-plt.show()
-
-gj=0
-print(np.sum(PJ))
 for gi in range(mi,Mi):
+    print(gj,PI[gi],PJ[gj])
     while gj<255 and PI[gi]<1 and PJ[gj]<PI[gi]:
-        gj+=1
+        gj = gj + 1
     K[gi]=gj
 
-print(K)
 
 cv2.imshow("Thresholded",K)
 

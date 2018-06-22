@@ -1,6 +1,3 @@
-
-import cv2
-
 import numpy as np
 
 def histogram(I): #multiband histogram calculation
@@ -16,5 +13,3 @@ def histogram(I): #multiband histogram calculation
         
     return hist
 
-
-I=cv2.imread("tony-stark.jpg")

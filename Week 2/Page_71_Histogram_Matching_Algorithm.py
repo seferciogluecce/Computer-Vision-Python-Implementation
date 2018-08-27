@@ -1,10 +1,15 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
+#from matplotlib import pyplot as plt
 
 
 I=cv2.imread("tony-stark.jpg",0)
 J=cv2.imread("thanos.jpg",0)
+
+cv2.imshow("Original Image",I)
+cv2.imshow("Target Image",J)
+
+
 
 Hi,Wi = I.shape
 Hj,Wj = J.shape
@@ -17,26 +22,26 @@ Mj=np.max(J)
 mi=np.min(I)
 Mi=np.max(I)
 
+'''PI,rBins,rPatches=plt.hist([a for a in I.ravel()],256,[0,256],[0,1],cumulative=True,color = "red")
+plt.title("I Channel Normalized")
+plt.show()
+PJ,rBins,rPatches=plt.hist([a for a in J.ravel()],256,[0,256],[0,1],cumulative=True,color = "blue")
+plt.title("J Channel Normalized")
+plt.show()'''
 
-Ihist,Ibins = np.histogram(I.flatten(),256,[0,256])
-PI_nonnormal = Ihist.cumsum()
-PI = PI_nonnormal * Ihist.max()/ PI_nonnormal.max()
+PI_noncumulative,edges=np.histogram([a for a in I.ravel()],256,[0,256],[0,1])
+PI=PI_noncumulative.cumsum()
+PJ_noncumulative,edges=np.histogram([a for a in J.ravel()],256,[0,256],[0,1])
+PJ=PJ_noncumulative.cumsum()
 
-Jhist,Jbins = np.histogram(J.flatten(),256,[0,256])
-PJ_nonnormal = Jhist.cumsum()
-PJ = PJ_nonnormal * Jhist.max()/ PJ_nonnormal.max()
-
-print(PJ)
 gj=mj
-
 for gi in range(mi,Mi):
-    print(gj,PI[gi],PJ[gj])
-    while gj<255 and PI[gi]<1 and PJ[gj]<PI[gi]:
+    while gj<256 and PI[gi]<1 and PJ[gj]<PI[gi]:
         gj = gj + 1
-    K[gi]=gj
+    K[I==gi]=gj
 
 
-cv2.imshow("Thresholded",K)
+cv2.imshow("Remapped Image",K)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()

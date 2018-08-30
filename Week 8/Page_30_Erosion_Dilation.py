@@ -13,6 +13,5 @@ J = cv2.dilate(I,np.ones((3,3),np.uint8))
 cv2.imshow('dilation',J)
 
 
-
 cv2.waitKey(0)
 cv2.destroyAllWindows()

@@ -5,7 +5,6 @@ img = cv2.imread('road_sky.jpg')
 
 cv2.imshow('Original' ,img)
 
-
 Z = img.reshape((-1,3))
 
 # convert to np.float32
@@ -57,7 +56,6 @@ res = center[label.flatten()]
 res2 = res.reshape((img.shape))
 
 cv2.imshow('K = ' + str(K),res2)
-
 
 
 cv2.waitKey(0)

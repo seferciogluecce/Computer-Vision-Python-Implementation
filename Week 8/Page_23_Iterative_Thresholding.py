@@ -11,12 +11,9 @@ while abs(T-lastT) > 1 :
     mb= np.mean(I[I<=T])
     T=0.5*(mb+mf)
 
-
-
 cv2.imshow("Lungs",I)
 
 ret,B=cv2.threshold(I, T, 255, cv2.THRESH_BINARY)
-
 cv2.imshow("Thresholded	at " + str(int(T)),B)
 
 cv2.waitKey(0)

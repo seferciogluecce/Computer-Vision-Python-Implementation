@@ -1,9 +1,9 @@
 import cv2;
 import numpy as np;
  
-I = cv2.imread("coin.png", cv2.IMREAD_GRAYSCALE);
+I = cv2.imread("coin.png", cv2.IMREAD_GRAYSCALE)
   
-ret, T_inverse = cv2.threshold(I, 0, 255, cv2.THRESH_OTSU) 
+threshold, T_inverse = cv2.threshold(I, 0, 255, cv2.THRESH_OTSU) # otsu threshold 
 T = cv2.bitwise_not(T_inverse)
 
 K_floodfill = T.copy()
@@ -26,7 +26,7 @@ cv2.destroyAllWindows()
 
 #connectedComponentswithStats yields every seperated component with information on each of them, such as size
 I = cv2.imread("text.png", cv2.IMREAD_GRAYSCALE)
-ret, I = cv2.threshold(I, 0, 255, cv2.THRESH_OTSU) 
+threshold, I = cv2.threshold(I, 0, 255, cv2.THRESH_OTSU) 
 
 nb_components, output, stats, centroids = cv2.connectedComponentsWithStats(I, connectivity=8)
 sizes = stats[1:, -1]; nb_components = nb_components - 1

@@ -2,12 +2,9 @@ import numpy as np
 import cv2
 
 img = cv2.imread('road_sky.jpg')
-
 cv2.imshow('Original' ,img)
 
-
 Z = img.reshape((-1,3))
-
 # convert to np.float32
 Z = np.float32(Z)
 
@@ -29,11 +26,3 @@ cv2.imshow('K = ' + str(K),res2)
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
-
-
-'''
-
-attemps=3
-ret,label,center=cv2.kmeans(Z,K,None,criteria,attemps,cv2.KMEANS_RANDOM_CENTERS)
-
-'''

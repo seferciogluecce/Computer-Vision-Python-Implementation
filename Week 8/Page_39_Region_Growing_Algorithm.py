@@ -1,5 +1,5 @@
 #Source: http://simpleitk-prototype.readthedocs.io/en/latest/user_guide/segmentation/plot_region_growing.html
-#C++'a alternatif olması için kullanılabilir
+#C++'a alternatif olmasi icin kullanilabilir
 
 """
 Region Growing Segmentation

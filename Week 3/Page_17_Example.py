@@ -1,16 +1,13 @@
 import cv2
+
 import numpy as np
 import math
 
-def clearBlacks(img): #https://codereview.stackexchange.com/questions/132914/crop-black-border-of-image-using-numpy  answer by Divakar
-    oneLayer = np.sum(img,axis=0)
-    mask=oneLayer>0
-    return img[field3d_mask = np.broadcast_to(field2d > 0.3, field3d.shape)]
-    return img[np.ix_(mask.any(1),mask.any(0)),np.ix_(mask.any(1),mask.any(0)),np.ix_(mask.any(1),mask.any(0))]
+def cropBorders(img,tol=0): #https://codereview.stackexchange.com/questions/132914/crop-black-border-of-image-using-numpy  answer by Divakar
+    mask=img>0
+    return img[np.ix_(mask.any(1),mask.any(0))]
 
-
-
-I=cv2.imread("LicensePlate.png") #read image
+I=cv2.imread("LicensePlate.png",0) #read image
 cv2.imshow("License Plate Original", I)
 
 height,width=I.shape[:2]
@@ -28,55 +25,46 @@ M[1, 2] += ((bound_h / 2) - height/2)
 
 J1 = cv2.warpAffine(I,M,(bound_w,bound_h))
 
-J1=clearBlacks(J1)
+J1=cropBorders(J1)
 cv2.imshow("License Plate Rotated", J1)
 
 
-tform=np.float32([ [1,-0.3,0],[0,1,0],[0,0,1]])
+tform=np.float32([ [1,0.3,0],[0,1,0]])
     
 
 h,w=J1.shape[:2]  #height and width values of the image
-J2=np.zeros([h*2,w*2,3],dtype=np.uint8)
+J2=np.zeros([h*2,w*2],dtype=np.uint8)
 
-for y in range(len(J1)):
-    for x in range(len(J1[y])):
-        xx,yy,cc=np.dot(tform,[x,y,1])        
-        if int(xx)>=0 and int(xx)<w and int(yy) >=0 and int(yy)<h:
-            J2[y][x]=J1[int(yy)][int(xx)]
+J2 = cv2.warpAffine(J1,tform,(w*2,h*2))
 
-J2=clearBlacks(J2)
+J2=cropBorders(J2)
 cv2.imshow("License Plate Skewed", J2)
+
 
 cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 
+#**************cleaner and color version
+
+I=cv2.imread("LicensePlate.png") #read image
+cv2.imshow("License Plate Original", I)
+
+height,width=I.shape[:2]
+
+# Rotate clockwise 15 degrees to align base
+M= cv2.getRotationMatrix2D((width/2,height/2),-15,1)
+J1 = cv2.warpAffine(I,M,(width,height))
+cv2.imshow("License Plate Rotated", J1)
 
 
+# Now apply a skew
+tform=np.float32([ [1,0.3,0],[0,1,0]])
+height,width=J1.shape[:2]  
+J2=np.zeros([h,w],dtype=np.uint8)
+J2 = cv2.warpAffine(J1,tform,(width,height))
+cv2.imshow("License Plate Skewed", J2)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+cv2.waitKey(0)
+cv2.destroyAllWindows()

@@ -9,6 +9,6 @@ LUT = np.zeros([256])
 gJ=0
 
 for gI in range(256):
-    while PJ[gJ] < PI[gI] and gJ<255:
+    while PJ[gJ] < PI[gI] and gJ<256:
         gJ = gJ+1
     LUT[gI] = gJ
